@@ -17,7 +17,7 @@ namespace Sat.Recruitment.Api.Controllers
     [Route("[controller]")]
     public partial class UsersController : ControllerBase
     {
-        private readonly List<User> _users = new List<User>();
+        //private readonly List<User> _users = new List<User>();
         public UsersController()
         {
         }

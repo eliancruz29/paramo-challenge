@@ -3,7 +3,7 @@ using System;
 
 namespace Sat.Recruitment.Domain.Entities
 {
-    internal sealed class User : Entity
+    public sealed class User : Entity
     {
         private User(
             Guid id,
