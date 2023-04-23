@@ -2,7 +2,7 @@
 
 namespace Sat.Recruitment.Domain.Entities
 {
-    internal class User
+    internal sealed class User : Entity
     {
         private User(
             Guid id,
@@ -12,8 +12,8 @@ namespace Sat.Recruitment.Domain.Entities
             string phone,
             UserType userType,
             decimal money)
+            : base (id)
         {
-            Id = id;
             Name = name;
             Email = email;
             Address = address;
@@ -22,7 +22,6 @@ namespace Sat.Recruitment.Domain.Entities
             Money = money;
         }
 
-        public Guid Id { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public string Email { get; private set; } = string.Empty;
         public string Address { get; private set; } = string.Empty;
@@ -77,6 +76,10 @@ namespace Sat.Recruitment.Domain.Entities
                 {
                     newUser.Money *= 2;
                 }
+            }
+            else
+            {
+                // TODO Exceptions
             }
 
             return newUser;
