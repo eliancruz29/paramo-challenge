@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sat.Recruitment.Domain.Exceptions;
+using System;
 
 namespace Sat.Recruitment.Domain.Entities
 {
@@ -37,6 +38,40 @@ namespace Sat.Recruitment.Domain.Entities
             UserType userType,
             decimal money)
         {
+            switch (userType)
+            {
+                case UserType.Normal:
+                    decimal percentage = 1;
+
+                    // If new user is normal and has more than USD100
+                    if (money > 100)
+                    {
+                        percentage += Convert.ToDecimal(0.12);
+                    }
+                    else if (money < 100 && money > 10)
+                    {
+                        percentage += Convert.ToDecimal(0.8);
+                    }
+
+                    money *= percentage;
+                    break;
+                case UserType.SuperUser:
+                    if (money > 100)
+                    {
+                        percentage = Convert.ToDecimal(1.20);
+                        money *= percentage;
+                    }
+                    break;
+                case UserType.Premium:
+                    if (money > 100)
+                    {
+                        money *= 2;
+                    }
+                    break;
+                default:
+                    throw new InvalidTypeDomainException(typeof(User).Name);
+            }
+
             var newUser = new User(
                 Guid.NewGuid(),
                 name,
@@ -45,42 +80,6 @@ namespace Sat.Recruitment.Domain.Entities
                 phone,
                 userType,
                 money);
-
-            if (UserType.Normal == newUser.UserType)
-            {
-                decimal percentage = 1;
-                
-                // If new user is normal and has more than USD100
-                if (money > 100)
-                {
-                    percentage += Convert.ToDecimal(0.12);
-                }
-                else if (money < 100 && money > 10)
-                {
-                    percentage += Convert.ToDecimal(0.8);    
-                }
-                
-                newUser.Money *= percentage;
-            }
-            else if (UserType.SuperUser == newUser.UserType)
-            {
-                if (money > 100)
-                {
-                    var percentage = Convert.ToDecimal(1.20);
-                    newUser.Money *= percentage;
-                }
-            }
-            else if (UserType.Premium == newUser.UserType)
-            {
-                if (money > 100)
-                {
-                    newUser.Money *= 2;
-                }
-            }
-            else
-            {
-                // TODO Exceptions
-            }
 
             return newUser;
         }
