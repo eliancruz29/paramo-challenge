@@ -1,11 +1,20 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30709.64
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Api", "Sat.Recruitment.Api\Sat.Recruitment.Api.csproj", "{1F342EA2-E7B1-4E53-AB93-9C62288D3FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Test", "Sat.Recruitment.Test\Sat.Recruitment.Test.csproj", "{42E696E9-2672-4B91-AD96-353A69F7219C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sat.Recruitment.Test", "Sat.Recruitment.Test\Sat.Recruitment.Test.csproj", "{42E696E9-2672-4B91-AD96-353A69F7219C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Domain", "Sat.Recruitment.Domain\Sat.Recruitment.Domain.csproj", "{DD97E14F-3F63-4B7E-8AE6-529F360D0666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Application", "Sat.Recruitment.Application\Sat.Recruitment.Application.csproj", "{3DDFA497-9CD5-4312-96BC-248063D5C7AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sat.Recruitment.Infrastructure", "Sat.Recruitment.Infrastructure\Sat.Recruitment.Infrastructure.csproj", "{885E0724-0182-45EF-97A3-4F7F5DCAA4C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{DFD36316-F6B8-4C42-8A38-3105B0EF3A6F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Externals", "Externals", "{C001E221-F652-48B6-A17E-0D77C3FAFF5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +30,26 @@ Global
 		{42E696E9-2672-4B91-AD96-353A69F7219C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42E696E9-2672-4B91-AD96-353A69F7219C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42E696E9-2672-4B91-AD96-353A69F7219C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD97E14F-3F63-4B7E-8AE6-529F360D0666}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD97E14F-3F63-4B7E-8AE6-529F360D0666}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD97E14F-3F63-4B7E-8AE6-529F360D0666}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD97E14F-3F63-4B7E-8AE6-529F360D0666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DDFA497-9CD5-4312-96BC-248063D5C7AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DDFA497-9CD5-4312-96BC-248063D5C7AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DDFA497-9CD5-4312-96BC-248063D5C7AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DDFA497-9CD5-4312-96BC-248063D5C7AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{885E0724-0182-45EF-97A3-4F7F5DCAA4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{885E0724-0182-45EF-97A3-4F7F5DCAA4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{885E0724-0182-45EF-97A3-4F7F5DCAA4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{885E0724-0182-45EF-97A3-4F7F5DCAA4C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DD97E14F-3F63-4B7E-8AE6-529F360D0666} = {DFD36316-F6B8-4C42-8A38-3105B0EF3A6F}
+		{3DDFA497-9CD5-4312-96BC-248063D5C7AF} = {DFD36316-F6B8-4C42-8A38-3105B0EF3A6F}
+		{885E0724-0182-45EF-97A3-4F7F5DCAA4C1} = {C001E221-F652-48B6-A17E-0D77C3FAFF5F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2A05765-05B9-484D-8D3D-506849EB716F}
