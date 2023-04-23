@@ -24,7 +24,7 @@ namespace Sat.Recruitment.Api
 
             services
                 .AddApplication()
-                .AddInfrastructure();
+                .AddInfrastructure(Configuration);
 
             services.AddSwaggerGen();
         }
