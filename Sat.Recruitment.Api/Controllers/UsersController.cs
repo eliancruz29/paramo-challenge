@@ -76,7 +76,7 @@ namespace Sat.Recruitment.Api.Controllers
 
             if (result.IsSuccess)
             {
-                return Created($"{nameof(UsersController)}/{result.Value}", result);
+                return Created($"users/{result.Value}", result);
             }
             else
             {
