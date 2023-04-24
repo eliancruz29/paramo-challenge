@@ -9,6 +9,8 @@ namespace Sat.Recruitment.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("User");
+
             builder.HasKey(u => u.Id);
 
             builder.Property(u => u.Name).IsRequired().HasMaxLength(100);

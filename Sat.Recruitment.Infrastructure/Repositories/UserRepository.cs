@@ -35,7 +35,7 @@ namespace Sat.Recruitment.Infrastructure.Repositories
             await _dbContext.Users.AddAsync(user, cancellationToken);
         }
 
-        public void RemoveAsync(User user)
+        public void Remove(User user)
         {
             _dbContext.Users.Remove(user);
         }

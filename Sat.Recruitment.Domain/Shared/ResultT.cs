@@ -9,8 +9,6 @@ namespace Sat.Recruitment.Domain.Shared
         protected internal Result(TValue value, bool isSuccess, string errors)
             : base(isSuccess, errors) => _value = value;
 
-        public TValue Value => IsSuccess
-            ? _value
-            : throw new InvalidOperationException();
+        public TValue Value => _value;
     }
 }
