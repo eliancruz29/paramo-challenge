@@ -1,6 +1,7 @@
 ﻿using Sat.Recruitment.Application.Contracts.DTOs;
 using Sat.Recruitment.Domain.Entities;
 using Sat.Recruitment.Domain.Repositories;
+using Sat.Recruitment.Domain.Resources;
 using Sat.Recruitment.Domain.Shared;
 using System;
 using System.Threading;
@@ -21,7 +22,7 @@ namespace Sat.Recruitment.Application.Abstractions
             _userRepository = userRepository;
         }
 
-        public async Task<Result> CreateUserAsync(UserDto user, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid>> CreateUserAsync(UserDto user, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -38,7 +39,7 @@ namespace Sat.Recruitment.Application.Abstractions
 
                 await _unitOfWOrk.SaveChangesAsync(cancellationToken);
 
-                return Result.Success(newUser.Id, "User Created");
+                return Result.Success(newUser.Id, UserMessages.User_001);
             }
             catch (Exception ex)
             {
@@ -50,7 +51,7 @@ namespace Sat.Recruitment.Application.Abstractions
                 }
 
                 if (innerException.Message.Contains("IX_User_Email"))
-                    return Result.Error("The user is duplicated");
+                    return Result.Error(Guid.Empty, UserMessages.User_002);
 
                 throw;
             }

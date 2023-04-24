@@ -8,6 +8,6 @@ namespace Sat.Recruitment.Application.Abstractions
 {
     public interface IUserService
     {
-        Task<Result> CreateUserAsync(UserDto user, CancellationToken cancellationToken = default);
+        Task<Result<Guid>> CreateUserAsync(UserDto user, CancellationToken cancellationToken = default);
     }
 }
