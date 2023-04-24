@@ -12,7 +12,5 @@ namespace Sat.Recruitment.Domain.Repositories
         Task<IEnumerable<User>> GetByNameAsync(string name, CancellationToken cancellationToken = default);
 
         Task AddAsync(User user, CancellationToken cancellationToken = default);
-
-        void Remove(User user);
     }
 }

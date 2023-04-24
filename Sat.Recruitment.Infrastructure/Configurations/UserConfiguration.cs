@@ -26,6 +26,8 @@ namespace Sat.Recruitment.Infrastructure.Configurations
                     ut => ut.ToString(),
                     ut => (UserType)Enum.Parse(typeof(UserType), ut));
 
+            builder.Property(u => u.Money).HasColumnType("decimal(18, 2)");
+
             builder.HasIndex(u => u.Name);
 
             builder.HasIndex(u => u.Email).IsUnique();

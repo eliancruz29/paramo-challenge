@@ -20,7 +20,8 @@ namespace Sat.Recruitment.Infrastructure.Repositories
         public async Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
         {
             return await _dbContext.Users
-                            .FirstOrDefaultAsync(u => email == u.Email, cancellationToken);
+                            .Where(u => email == u.Email)
+                            .FirstOrDefaultAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetByNameAsync(string name, CancellationToken cancellationToken = default)
@@ -33,11 +34,6 @@ namespace Sat.Recruitment.Infrastructure.Repositories
         public async Task AddAsync(User user, CancellationToken cancellationToken = default)
         {
             await _dbContext.Users.AddAsync(user, cancellationToken);
-        }
-
-        public void Remove(User user)
-        {
-            _dbContext.Users.Remove(user);
         }
     }
 }

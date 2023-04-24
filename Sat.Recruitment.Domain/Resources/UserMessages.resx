@@ -118,9 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="User_001" xml:space="preserve">
-    <value>"User created"</value>
+    <value>User created</value>
   </data>
   <data name="User_002" xml:space="preserve">
-    <value>"The user is duplicated"</value>
+    <value>The user is duplicated</value>
+  </data>
+  <data name="User_003" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="User_004" xml:space="preserve">
+    <value>Couldn't created a new user</value>
   </data>
 </root>
