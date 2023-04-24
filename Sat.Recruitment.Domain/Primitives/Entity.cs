@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Sat.Recruitment.Domain.Entities
+namespace Sat.Recruitment.Domain.Primitives
 {
     public abstract class Entity : IEquatable<Entity>
     {
@@ -11,17 +12,7 @@ namespace Sat.Recruitment.Domain.Entities
 
         public Guid Id { get; private set; }
 
-        public static bool operator ==(Entity a, Entity b)
-        {
-            return a != null && b != null && a.Equals(b);
-        }
-
-        public static bool operator !=(Entity a, Entity b)
-        {
-            return !(a == b);
-        }
-
-        public bool Equals(Entity other)
+        public bool Equals([AllowNull] Entity other)
         {
             if (other == null)
                 return false;
@@ -30,18 +21,6 @@ namespace Sat.Recruitment.Domain.Entities
                 return false;
 
             return Id == other.Id;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            Entity userIdObj = obj as Entity;
-            if (userIdObj == null)
-                return false;
-            else
-                return Equals(obj);
         }
 
         public override int GetHashCode()

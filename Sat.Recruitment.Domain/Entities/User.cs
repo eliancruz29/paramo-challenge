@@ -1,4 +1,5 @@
 ﻿using Sat.Recruitment.Domain.Exceptions;
+using Sat.Recruitment.Domain.Primitives;
 using System;
 
 namespace Sat.Recruitment.Domain.Entities
