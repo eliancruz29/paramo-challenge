@@ -1,9 +1,12 @@
-﻿using Sat.Recruitment.Application.Contracts.DTOs;
+﻿using AutoMapper;
+using Sat.Recruitment.Application.Contracts.DTOs;
 using Sat.Recruitment.Domain.Entities;
 using Sat.Recruitment.Domain.Repositories;
 using Sat.Recruitment.Domain.Resources;
 using Sat.Recruitment.Domain.Shared;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,15 +14,56 @@ namespace Sat.Recruitment.Application.Abstractions
 {
     public sealed class UserService : IUserService
     {
+        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWOrk;
         private readonly IUserRepository _userRepository;
 
         public UserService(
+            IMapper mapper,
             IUnitOfWork unitOfWOrk,
             IUserRepository userRepository)
         {
+            _mapper = mapper;
             _unitOfWOrk = unitOfWOrk;
             _userRepository = userRepository;
+        }
+
+        public async Task<Result<UserDto>> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var user = await _userRepository.GetByEmailAsync(email, cancellationToken);
+
+                if (null != user)
+                {
+                    return Result.Success(_mapper.Map<UserDto>(user));
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Log
+            }
+
+            return Result.Error(default(UserDto), UserMessages.User_003);
+        }
+
+        public async Task<Result<IEnumerable<UserDto>>> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var users = await _userRepository.GetByNameAsync(name, cancellationToken);
+
+                if (null != users && users.Any())
+                {
+                    return Result.Success(_mapper.Map<IEnumerable<UserDto>>(users));
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO Log
+            }
+
+            return Result.Error(default(IEnumerable<UserDto>), UserMessages.User_003);
         }
 
         public async Task<Result<Guid>> CreateUserAsync(UserDto user, CancellationToken cancellationToken = default)
@@ -32,8 +76,7 @@ namespace Sat.Recruitment.Application.Abstractions
                     user.Address,
                     user.Phone,
                     user.UserType,
-                    user.Money
-                    );
+                    user.Money);
 
                 await _userRepository.AddAsync(newUser, cancellationToken);
 
@@ -43,6 +86,7 @@ namespace Sat.Recruitment.Application.Abstractions
             }
             catch (Exception ex)
             {
+                //TODO log error
                 var innerException = ex.InnerException;
 
                 while (innerException?.InnerException != null)
@@ -53,7 +97,7 @@ namespace Sat.Recruitment.Application.Abstractions
                 if (innerException.Message.Contains("IX_User_Email"))
                     return Result.Error(Guid.Empty, UserMessages.User_002);
 
-                throw;
+                return Result.Error(Guid.Empty, UserMessages.User_004);
             }
         }
     }

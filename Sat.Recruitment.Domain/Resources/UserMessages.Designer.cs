@@ -61,7 +61,7 @@ namespace Sat.Recruitment.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;User created&quot;.
+        ///   Looks up a localized string similar to User created.
         /// </summary>
         public static string User_001 {
             get {
@@ -70,11 +70,29 @@ namespace Sat.Recruitment.Domain.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;The user is duplicated&quot;.
+        ///   Looks up a localized string similar to The user is duplicated.
         /// </summary>
         public static string User_002 {
             get {
                 return ResourceManager.GetString("User_002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found.
+        /// </summary>
+        public static string User_003 {
+            get {
+                return ResourceManager.GetString("User_003", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t created a new user.
+        /// </summary>
+        public static string User_004 {
+            get {
+                return ResourceManager.GetString("User_004", resourceCulture);
             }
         }
     }
