@@ -1,10 +1,14 @@
-using System;
-using System.Dynamic;
-
 using Microsoft.AspNetCore.Mvc;
-
+using Moq;
 using Sat.Recruitment.Api.Controllers;
-
+using Sat.Recruitment.Application.Abstractions;
+using Sat.Recruitment.Application.Contracts.DTOs;
+using Sat.Recruitment.Domain.Entities;
+using Sat.Recruitment.Domain.Resources;
+using Sat.Recruitment.Domain.Shared;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Sat.Recruitment.Test
@@ -12,28 +16,62 @@ namespace Sat.Recruitment.Test
     [CollectionDefinition("Tests", DisableParallelization = true)]
     public class UnitTest1
     {
-        [Fact]
-        public void Test1()
+        private Mock<IUserService> fakeUserServices = new Mock<IUserService>();
+
+        // Arrange
+        private readonly UserDto _mockNewUser = new UserDto()
         {
-            var userController = new UsersController();
+            Name = "TestName",
+            Email = "Test@gmail.com",
+            Address = "TestAddress",
+            Phone = "TestPhone",
+            UserType = UserType.Normal,
+            Money = 50
+        };
 
-            var result = userController.CreateUser("Mike", "mike@gmail.com", "Av. Juan G", "+349 1122354215", "Normal", "124").Result;
+        public UnitTest1(){}
 
+        [Fact]
+        public async Task Creating_New_User_Success()
+        {
+            // Arrange
+            var newId = Guid.NewGuid();
+            var response = Result.Success(newId, UserMessages.User_001);
 
-            Assert.Equal(true, result.IsSuccess);
-            Assert.Equal("User Created", result.Errors);
+            fakeUserServices.Setup(s => s.CreateUserAsync(_mockNewUser, CancellationToken.None))
+                .ReturnsAsync(response);
+
+            var userController = new UsersController(fakeUserServices.Object);
+
+            // Act
+            var result = await userController.CreateUser(_mockNewUser, CancellationToken.None);
+
+            // Assert
+            var actionResult = Assert.IsType<CreatedResult>(result);
+            Assert.Equal($"users/{newId}", actionResult.Location);
+            var valueResult = Assert.IsType<Result<Guid>>(actionResult.Value);
+            Assert.Equal(UserMessages.User_001, valueResult.Message);
         }
 
         [Fact]
-        public void Test2()
+        public async Task Creating_New_User_Fail_Repeated_User()
         {
-            var userController = new UsersController();
+            // Arrange
+            var newId = Guid.Empty;
+            var response = Result.Error(newId, UserMessages.User_002);
 
-            var result = userController.CreateUser("Agustina", "Agustina@gmail.com", "Av. Juan G", "+349 1122354215", "Normal", "124").Result;
+            fakeUserServices.Setup(s => s.CreateUserAsync(_mockNewUser, CancellationToken.None))
+                .ReturnsAsync(response);
 
+            var userController = new UsersController(fakeUserServices.Object);
 
-            Assert.Equal(false, result.IsSuccess);
-            Assert.Equal("The user is duplicated", result.Errors);
+            // Act
+            var result = await userController.CreateUser(_mockNewUser, CancellationToken.None);
+
+            // Assert
+            var actionResult = Assert.IsType<BadRequestObjectResult>(result);
+            var valueResult = Assert.IsType<Result<Guid>>(actionResult.Value);
+            Assert.Equal(UserMessages.User_002, valueResult.Message);
         }
     }
 }
