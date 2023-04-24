@@ -1,17 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using Sat.Recruitment.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using Sat.Recruitment.Application.Contracts.DTOs;
+using Sat.Recruitment.Domain.Shared;
+using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 namespace Sat.Recruitment.Api.Controllers
 {
-    public class Result
-    {
-        public bool IsSuccess { get; set; }
-        public string Errors { get; set; }
-    }
 
     [ApiController]
     [Route("[controller]")]
@@ -24,24 +19,20 @@ namespace Sat.Recruitment.Api.Controllers
 
         [HttpPost]
         [Route("/create-user")]
-        public async Task<Result> CreateUser(string name, string email, string address, string phone, string userType, string money)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(200, Type = typeof(Result<UserDto>))]
+        [ProducesResponseType(400, Type = typeof(Result))]
+        public async Task<IActionResult> CreateUser([FromBody] UserDto data)
         {
-            return new Result()
+            if (!ModelState.IsValid)
             {
-                IsSuccess = true,
-                Errors = "User Created"
-            };
+                var errors = string.Join(", ", ModelState.Values.Select(
+                    e => string.Join(", ", e.Errors.Select(m => m.ErrorMessage))));
 
-            //var errors = "";
+                return BadRequest(Result.Error(data, errors));
+            }
 
-            //ValidateErrors(name, email, address, phone, ref errors);
-
-            //if (errors != null && errors != "")
-            //    return new Result()
-            //    {
-            //        IsSuccess = false,
-            //        Errors = errors
-            //    };
+            return Ok(Result.Success(data, "User Created"));
 
             //var newUser = new User
             //{
@@ -137,23 +128,6 @@ namespace Sat.Recruitment.Api.Controllers
             //    IsSuccess = true,
             //    Errors = "User Created"
             //};
-        }
-
-        //Validate errors
-        private void ValidateErrors(string name, string email, string address, string phone, ref string errors)
-        {
-            if (name == null)
-                //Validate if Name is null
-                errors = "The name is required";
-            if (email == null)
-                //Validate if Email is null
-                errors = errors + " The email is required";
-            if (address == null)
-                //Validate if Address is null
-                errors = errors + " The address is required";
-            if (phone == null)
-                //Validate if Phone is null
-                errors = errors + " The phone is required";
         }
     }
 }
