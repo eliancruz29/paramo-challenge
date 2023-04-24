@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sat.Recruitment.Domain.Repositories;
+using Sat.Recruitment.Infrastructure.Repositories;
 
 namespace Sat.Recruitment.Infrastructure
 {
@@ -12,6 +14,9 @@ namespace Sat.Recruitment.Infrastructure
 
             services.AddDbContext<ApplicationDbContext>(option => 
                 option.UseSqlServer(connectionString));
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

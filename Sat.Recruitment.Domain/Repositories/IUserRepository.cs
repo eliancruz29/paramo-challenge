@@ -13,6 +13,6 @@ namespace Sat.Recruitment.Domain.Repositories
 
         Task AddAsync(User user, CancellationToken cancellationToken = default);
 
-        void RemoveAsync(User user);
+        void Remove(User user);
     }
 }
