@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Sat.Recruitment.Application.Contracts.DTOs;
 using Sat.Recruitment.Domain.Entities;
 using Sat.Recruitment.Domain.Repositories;
@@ -16,14 +17,17 @@ namespace Sat.Recruitment.Application.Abstractions
     {
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWOrk;
+        private readonly ILogger<UserService> _logger;
         private readonly IUserRepository _userRepository;
 
         public UserService(
             IMapper mapper,
             IUnitOfWork unitOfWOrk,
+            ILogger<UserService> logger,
             IUserRepository userRepository)
         {
             _mapper = mapper;
+            _logger = logger;
             _unitOfWOrk = unitOfWOrk;
             _userRepository = userRepository;
         }
@@ -41,7 +45,7 @@ namespace Sat.Recruitment.Application.Abstractions
             }
             catch (Exception ex)
             {
-                // TODO Log
+                _logger.LogError(ex.Message, ex);
             }
 
             return Result.Error(default(UserDto), UserMessages.User_003);
@@ -60,7 +64,7 @@ namespace Sat.Recruitment.Application.Abstractions
             }
             catch (Exception ex)
             {
-                // TODO Log
+                _logger.LogError(ex.Message, ex);
             }
 
             return Result.Error(default(IEnumerable<UserDto>), UserMessages.User_003);
@@ -86,7 +90,8 @@ namespace Sat.Recruitment.Application.Abstractions
             }
             catch (Exception ex)
             {
-                //TODO log error
+                _logger.LogError(ex.Message, ex);
+
                 var innerException = ex.InnerException;
 
                 while (innerException?.InnerException != null)
